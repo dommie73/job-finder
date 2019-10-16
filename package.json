@@ -2,9 +2,9 @@
   "name": "job-finder",
   "version": "1.0.0",
   "description": "A simple web scraper which collects and parses out job postings.",
-  "main": "src/index.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "nodemon index.js --ignore *.json",
+    "start": "nodemon --ignore *.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
