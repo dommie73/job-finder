@@ -1,0 +1,26 @@
+{
+  "name": "job-finder",
+  "version": "1.0.0",
+  "description": "A simple web scraper which collects and parses out job postings.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon index.js --ignore *.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dommie73/job-finder.git"
+  },
+  "author": "dommie73",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dommie73/job-finder/issues"
+  },
+  "homepage": "https://github.com/dommie73/job-finder#readme",
+  "dependencies": {
+    "puppeteer": "1.20.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.3"
+  }
+}
