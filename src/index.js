@@ -1,48 +1,22 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
-const WEBSITE_URL = 'https://justjoin.it/wroclaw/javascript';
+const justJoinIT = require('./scrapers/just-join-it');
+const noFluffJobs = require('./scrapers/no-fluff-jobs');
+
 const FILENAME = 'job-offers.json';
 
-(async () => {
+const getAllData = async () => {
   try {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto(WEBSITE_URL);
 
-    const rawOffersData = await page.$$('offer-item > .item');
-    const offersData = rawOffersData.map(async offer => {
-      const title = await offer.$eval(
-        '.item-row > .primary-line > .title',
-        node => node.innerText);
-      const salary = await offer.$eval(
-        '.item-row > .primary-line .salary',
-        node => node.innerText);
-      const [name, address] = await offer.$$eval(
-        '.item-row > .secondary-line > .company-info span',
-        nodes => nodes.map(node =>
-          [...node.childNodes]
-            .filter(node => node.nodeType === 3)
-            .map(node => node.nodeValue)
-            .join('')
-            .trim()
-        )
-      );
-
-      return {
-        title,
-        salary,
-        company: {
-          name,
-          address
-        }
-      }
-    });
-
-    const parsedOffersData = await Promise.all(offersData);
+    const justJoinITData = await justJoinIT(page);
+    const noFluffJobsData = await noFluffJobs(page);
+    const parsedOffersData = [...justJoinITData, ...noFluffJobsData];
 
     fs.writeFile(FILENAME,
-      JSON.stringify(parsedOffersData),
+      JSON.stringify(parsedOffersData, null, 2),
       error => error ?
         console.error(error) :
         console.info(`Successfully saved to ${FILENAME}`)
@@ -54,4 +28,6 @@ const FILENAME = 'job-offers.json';
   catch (error) {
     console.error(error);
   }
-})();
+}
+
+getAllData();
