@@ -6,7 +6,9 @@ const noFluffJobs = async (page) => {
 
   const offersURLs = await page.$$eval(
     '.list-item .posting-list-item',
-    nodes => nodes.map(node => node.href)
+    nodes => nodes
+      .map(node => node.href)
+      .filter(node => node.match('wroclaw'))
   );
 
   const parsedOffersData = [];
@@ -15,7 +17,10 @@ const noFluffJobs = async (page) => {
     await page.goto(url, { waitUntil: 'networkidle0' });
 
     const cookieBtn = await page.$('.btn-accept-cookie');
-    if (cookieBtn) await cookieBtn.click();
+    if (cookieBtn) {
+      await cookieBtn.click();
+      await page.waitForFunction(() => !document.querySelector('bs-modal-backdrop'));
+    }
 
     const title = await page.$eval(
       '.posting-details-description h1',
@@ -30,7 +35,7 @@ const noFluffJobs = async (page) => {
     );
 
     const name = await page.$eval(
-      '.posting-details-description .company-name',
+      '.posting-details-description h1 + a.inline-info > dl > dd',
       node => node.innerText
     );
 
