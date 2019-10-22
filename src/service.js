@@ -1,24 +1,21 @@
-const api = require('./api.js');
+const api = require('./scrapers/api');
 
-const jobsRequest = async (req, res) => {
+const jobsRequest = async (req, res, query) => {
   try {
-    const data = await api.getJobOffers();
+    const data = await api.getJobOffers(query);
 
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json');
+    res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(data));
   }
 
   catch (error) {
-    res.statusCode = 500;
-    res.setHeader('Content-Type', 'text/plain');
+    res.writeHead(500, { 'Content-Type': 'text/plain' });
     res.end('Oops, something went wrong :c');
   }
 };
 
 const invalidRequest = (req, res) => {
-  res.statusCode = 404;
-  res.setHeader('Content-Type', 'text/plain');
+  res.writeHead(404, { 'Content-Type': 'text/plain' });
   res.end('Invalid request.');
 };
 
