@@ -1,14 +1,15 @@
-const WEBSITE_URL = 'https://nofluffjobs.com/jobs/wroclaw/frontend';
+const WEBSITE_URL = 'https://nofluffjobs.com/jobs';
 const WEBSITE_NAME = 'No Fluff Jobs';
 
-const noFluffJobs = async (page) => {
-  await page.goto(WEBSITE_URL, { waitUntil: 'networkidle0' });
+const noFluffJobs = async (page, { city = '', category = '' }) => {
+  await page.goto(`${WEBSITE_URL}/${city}/${category}`, { waitUntil: 'networkidle0' });
 
   const offersURLs = await page.$$eval(
     '.list-item .posting-list-item',
-    nodes => nodes
+    (nodes, city) => nodes
       .map(node => node.href)
-      .filter(node => node.match('wroclaw'))
+      .filter(node => node.match(city)),
+    city
   );
 
   const parsedOffersData = [];

@@ -1,8 +1,8 @@
-const WEBSITE_URL = 'https://justjoin.it/wroclaw/javascript';
+const WEBSITE_URL = 'https://justjoin.it';
 const WEBSITE_NAME = 'Just Join IT';
 
-const justJoinIT = async (page) => {
-  await page.goto(WEBSITE_URL, { waitUntil: 'networkidle0' });
+const justJoinIT = async (page, { city = 'all', category = '' }) => {
+  await page.goto(`${WEBSITE_URL}/${city}/${category}`, { waitUntil: 'networkidle0' });
 
   const rawOffersData = await page.$$('offer-item > .item');
 

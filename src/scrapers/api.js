@@ -1,15 +1,15 @@
 const puppeteer = require('puppeteer');
 
-const justJoinIT = require('./scrapers/just-join-it');
-const noFluffJobs = require('./scrapers/no-fluff-jobs');
+const justJoinIT = require('./just-join-it');
+const noFluffJobs = require('./no-fluff-jobs');
 
-const getJobOffers = async () => {
+const getJobOffers = async query => {
   try {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    const justJoinITData = await justJoinIT(page);
-    const noFluffJobsData = await noFluffJobs(page);
+    const justJoinITData = await justJoinIT(page, query);
+    const noFluffJobsData = await noFluffJobs(page, query);
     const parsedOffersData = [...justJoinITData, ...noFluffJobsData];
 
     await browser.close();
