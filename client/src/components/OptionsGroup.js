@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const OptionsGroup = ({ data, legend }) => {
+const OptionsGroup = ({ data, legend, value, setValue }) => {
   const classes = useStyles();
 
   const mappedRadios = data.map(({ label, name }) => (
@@ -30,12 +30,16 @@ const OptionsGroup = ({ data, legend }) => {
     />
   ));
 
+  const handleChange = event => {
+    setValue(event.target.value);
+  }
+
   return (
     <FormControl component="fieldset" className={classes.fieldset}>
       <FormLabel component="legend">
         {legend}
       </FormLabel>
-      <RadioGroup className={classes.row}>
+      <RadioGroup className={classes.row} value={value} onChange={handleChange}>
         {mappedRadios}
       </RadioGroup>
     </FormControl>
