@@ -1,7 +1,9 @@
 const { getInnerText } = require('../utils');
 
+const defaultQueries = require('../queries/default');
+
 class JobOffersScraper {
-  constructor(websiteName, websiteUrl, page, selectors, goToEach = false) {
+  constructor(websiteName, websiteUrl, page, selectors, queries, goToEach) {
     Object.assign(this, {
       websiteName,
       websiteUrl,
@@ -9,6 +11,18 @@ class JobOffersScraper {
       selectors,
       goToEach
     });
+
+    this.queries = { ...defaultQueries, ...queries };
+  }
+
+  parseUrl({ city, category }) {
+    return [
+      this.websiteUrl,
+      this.queries.cities[city],
+      this.queries.categories[category]
+    ]
+      .join('/')
+      .replace(/(\/all)*$/, '');
   }
 
   async _goToOffersPage(url = this.websiteUrl) {
@@ -99,8 +113,9 @@ class JobOffersScraper {
     return await Promise.all(offers);
   }
 
-  async getJobOffers() {
-    await this._goToOffersPage();
+  async getJobOffers(query) {
+    await this._goToOffersPage(this.parseUrl(query));
+    console.log(this.parseUrl(query));
 
     const offersNodes = await this._getOffersParentNodes();
 

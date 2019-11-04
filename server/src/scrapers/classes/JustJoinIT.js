@@ -9,12 +9,14 @@ const selectors = {
 };
 
 class JustJoinIT extends JobOffersScraper {
-  constructor(page, { city, category }) {
+  constructor(page) {
     super(
       'Just Join IT',
-      `https://justjoin.it/${city}/${category}`,
+      `https://justjoin.it`,
       page,
-      selectors
+      selectors,
+      {},
+      false
     );
   }
 }

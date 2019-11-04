@@ -4,22 +4,18 @@ const JustJoinIT = require('./classes/JustJoinIT');
 const NoFluffJobs = require('./classes/NoFluffJobs');
 
 const getJobOffers = async query => {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch();
 
   try {
     const page = await browser.newPage();
 
-    // const justJoinIT = new JustJoinIT(page, query);
-    // const justJoinITData = await justJoinIT.getJobOffers();
+    const justJoinIT = await new JustJoinIT(page).getJobOffers(query);
+    const noFluffJobs = await new NoFluffJobs(page).getJobOffers(query);
 
-    const noFluffJobs = new NoFluffJobs(page, query);
-    const noFluffJobsData = await noFluffJobs.getJobOffers();
+    const data = [...justJoinIT, ...noFluffJobs];
+    console.log(data);
+    return data;
 
-    // console.log(justJoinITData);
-    // return justJoinITData;
-
-    console.log(noFluffJobsData);
-    return noFluffJobsData;
   }
 
   catch (error) {
@@ -32,4 +28,4 @@ const getJobOffers = async query => {
   }
 };
 
-getJobOffers({ city: 'wroclaw', category: 'javascript' });
+getJobOffers({ city: 'all', category: 'javascript' });

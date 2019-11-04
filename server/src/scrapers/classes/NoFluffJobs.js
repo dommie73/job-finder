@@ -9,14 +9,25 @@ const selectors = {
 };
 
 class NoFluffJobs extends JobOffersScraper {
-  constructor(page, { city, category }) {
+  constructor(page) {
     super(
       'No Fluff Jobs',
-      `https://nofluffjobs.com/jobs/${city}/${category}`,
+      `https://nofluffjobs.com/jobs`,
       page,
       selectors,
+      {},
       true
     );
+  }
+
+  parseUrl({ city, category }) {
+    return [
+      this.websiteUrl,
+      this.queries.cities[city],
+      this.queries.categories[category]
+    ]
+      .join('/')
+      .replace(/(\/all(?=(\/|$)))+/, '');
   }
 
   async executeBefore() {
