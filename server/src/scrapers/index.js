@@ -1,7 +1,8 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require("puppeteer");
 
-const JustJoinIT = require('./classes/JustJoinIT');
-const NoFluffJobs = require('./classes/NoFluffJobs');
+const JustJoinIT = require("./classes/JustJoinIT");
+const NoFluffJobs = require("./classes/NoFluffJobs");
+const JobsForGeek = require("./classes/JobsForGeek");
 
 const getJobOffers = async query => {
   const browser = await puppeteer.launch();
@@ -11,21 +12,17 @@ const getJobOffers = async query => {
 
     const justJoinIT = await new JustJoinIT(page).getJobOffers(query);
     const noFluffJobs = await new NoFluffJobs(page).getJobOffers(query);
+    const jobsForGeek = await new JobsForGeek(page).getJobOffers(query);
 
-    const data = [...justJoinIT, ...noFluffJobs];
+    const data = [...justJoinIT, ...noFluffJobs, ...jobsForGeek];
     console.log(data);
     return data;
-
-  }
-
-  catch (error) {
+  } catch (error) {
     console.error(error.message);
     throw error;
-  }
-
-  finally {
+  } finally {
     await browser.close();
   }
 };
 
-getJobOffers({ city: 'all', category: 'javascript' });
+module.exports = getJobOffers;

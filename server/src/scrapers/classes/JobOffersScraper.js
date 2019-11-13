@@ -1,6 +1,6 @@
-const { getInnerText } = require('../utils');
+const { getInnerTextWithTextNodesOnly } = require("../utils");
 
-const defaultQueries = require('../queries/default');
+const defaultQueries = require("../queries/default");
 
 class JobOffersScraper {
   constructor(websiteName, websiteUrl, page, selectors, queries, goToEach) {
@@ -21,16 +21,16 @@ class JobOffersScraper {
       this.queries.cities[city],
       this.queries.categories[category]
     ]
-      .join('/')
-      .replace(/(\/all)*$/, '');
+      .join("/")
+      .replace(/(\/all)*$/, "");
   }
 
   async _goToOffersPage(url = this.websiteUrl) {
-    return await this.page.goto(url, { waitUntil: 'networkidle0' });
+    return await this.page.goto(url, { waitUntil: "networkidle0" });
   }
 
   async _getItemValue(offer, selector) {
-    return await offer.$eval(selector, getInnerText);
+    return await offer.$eval(selector, getInnerTextWithTextNodesOnly);
   }
 
   async getAddress(offer) {
@@ -50,7 +50,7 @@ class JobOffersScraper {
   }
 
   async getUrl(offer) {
-    return await this._getProperty(offer, 'href');
+    return await this._getProperty(offer, "href");
   }
 
   async _getOffersParentNodes() {
@@ -63,9 +63,9 @@ class JobOffersScraper {
   }
 
   async makeJobOffer(offer) {
-    const url = this.goToEach ?
-      await this.page.url() :
-      await this.getUrl(offer);
+    const url = this.goToEach
+      ? await this.page.url()
+      : await this.getUrl(offer);
 
     return {
       from: this.websiteName,
@@ -81,12 +81,11 @@ class JobOffersScraper {
 
   async collectUrls(offersNodes) {
     return await Promise.all(
-      offersNodes.map(async offerNode =>
-        await this.getUrl(offerNode)
-      ));
+      offersNodes.map(async offerNode => await this.getUrl(offerNode))
+    );
   }
 
-  async executeBefore() { }
+  async executeBefore() {}
 
   async _scrapeEach(offersNodes) {
     const offers = [];

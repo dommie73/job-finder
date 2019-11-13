@@ -1,16 +1,16 @@
-const { arrayToObject } = require('../utils');
+const { arrayToObject } = require("../utils");
 
-const categories = require('./categories');
-const cities = require('./cities');
+const categories = require("./categories");
+const cities = require("./cities");
 
 const defaultQueries = {
   cities: {
-    all: 'all',
-    remote: 'remote',
+    all: "all",
+    remote: "remote",
     ...arrayToObject(cities)
   },
   categories: {
-    all: 'all',
+    all: "all",
     ...arrayToObject(categories)
   }
 };
