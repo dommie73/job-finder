@@ -8,6 +8,13 @@ const selectors = {
   address: "nfj-postings-locations .text-truncate"
 };
 
+const queries = {
+  categories: {
+    c: "c%2B%2B",
+    net: ".net"
+  }
+};
+
 class NoFluffJobs extends JobOffersScraper {
   constructor(page) {
     super(
@@ -15,7 +22,7 @@ class NoFluffJobs extends JobOffersScraper {
       `https://nofluffjobs.com/jobs`,
       page,
       selectors,
-      {},
+      queries,
       true
     );
   }

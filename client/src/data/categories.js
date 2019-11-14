@@ -1,50 +1,34 @@
 export default [
   {
-    name: '',
-    label: 'All'
+    name: "c",
+    label: "C++"
   },
   {
-    name: 'c',
-    label: 'C++'
+    name: "java",
+    label: "Java"
   },
   {
-    name: 'devops',
-    label: 'DevOps'
+    name: "javascript",
+    label: "Javascript"
   },
   {
-    name: 'java',
-    label: 'Java'
+    name: "mobile",
+    label: "Mobile"
   },
   {
-    name: 'javascript',
-    label: 'Javascript'
+    name: "net",
+    label: ".NET"
   },
   {
-    name: 'mobile',
-    label: 'Mobile'
+    name: "php",
+    label: "PHP"
   },
   {
-    name: 'net',
-    label: '.NET'
+    name: "python",
+    label: "Python"
   },
   {
-    name: 'php',
-    label: 'PHP'
-  },
-  {
-    name: 'python',
-    label: 'Python'
-  },
-  {
-    name: 'ruby',
-    label: 'Ruby'
-  },
-  {
-    name: 'testing',
-    label: 'Testing'
-  },
-  {
-    name: 'ux',
-    label: 'UX/UI'
+    name: "ruby",
+    label: "Ruby"
   }
 ];

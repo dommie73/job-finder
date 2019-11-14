@@ -62,7 +62,7 @@ class JobOffersScraper {
     return await propertyHandler.jsonValue();
   }
 
-  async makeJobOffer(offer) {
+  async makeJobOffer(offer, query) {
     const url = this.goToEach
       ? await this.page.url()
       : await this.getUrl(offer);
@@ -75,7 +75,9 @@ class JobOffersScraper {
         name: await this.getName(offer),
         address: await this.getAddress(offer)
       },
-      url
+      url,
+      city: query.city,
+      category: [query.category]
     };
   }
 
@@ -87,7 +89,7 @@ class JobOffersScraper {
 
   async executeBefore() {}
 
-  async _scrapeEach(offersNodes) {
+  async _scrapeEach(offersNodes, query) {
     const offers = [];
     const offersUrls = await this.collectUrls(offersNodes);
 
@@ -95,18 +97,18 @@ class JobOffersScraper {
       await this._goToOffersPage(offerUrl);
       await this.executeBefore();
 
-      const offer = await this.makeJobOffer(this.page);
+      const offer = await this.makeJobOffer(this.page, query);
       offers.push(offer);
     }
 
     return offers;
   }
 
-  async _scrapeAll(offersNodes) {
+  async _scrapeAll(offersNodes, query) {
     await this.executeBefore();
 
     const offers = offersNodes.map(
-      async offerNode => await this.makeJobOffer(offerNode)
+      async offerNode => await this.makeJobOffer(offerNode, query)
     );
 
     return await Promise.all(offers);
@@ -119,10 +121,10 @@ class JobOffersScraper {
     const offersNodes = await this._getOffersParentNodes();
 
     if (this.goToEach) {
-      return await this._scrapeEach(offersNodes);
+      return await this._scrapeEach(offersNodes, query);
     }
 
-    return await this._scrapeAll(offersNodes);
+    return await this._scrapeAll(offersNodes, query);
   }
 }
 

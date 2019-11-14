@@ -12,7 +12,9 @@ const jobOfferSchema = new Schema(
     url: {
       type: String,
       unique: true
-    }
+    },
+    city: String,
+    category: [String]
   },
   { timestamps: true }
 );

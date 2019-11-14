@@ -5,15 +5,23 @@ const {
   getInnerTextWithNoWhitespace
 } = require("../utils");
 
-const categories = require("../queries/categories");
 const cities = require("../queries/cities");
 
 const queries = {
   cities: {
-    ...arrayToObjectUppercase(cities)
+    ...arrayToObjectUppercase(cities),
+    trojmiasto: "GDANSK",
+    warszawa: "WARSAW"
   },
   categories: {
-    ...arrayToObjectUppercase(categories)
+    c: "C%2B%2B",
+    java: "Java",
+    javascript: "JavaScript",
+    mobile: "Android",
+    net: ".NET",
+    php: "PHP",
+    python: "Python",
+    ruby: "Ruby"
   }
 };
 

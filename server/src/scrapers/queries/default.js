@@ -6,7 +6,6 @@ const cities = require("./cities");
 const defaultQueries = {
   cities: {
     all: "all",
-    remote: "remote",
     ...arrayToObject(cities)
   },
   categories: {
