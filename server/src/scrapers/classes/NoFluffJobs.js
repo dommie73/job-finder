@@ -1,5 +1,8 @@
 const JobOffersScraper = require("./JobOffersScraper");
 
+const categories = require("../queries/categories");
+const { arrayToObject } = require("../utils");
+
 const selectors = {
   parent: ".list-item .posting-list-item",
   title: ".posting-details-description h1",
@@ -10,6 +13,7 @@ const selectors = {
 
 const queries = {
   categories: {
+    ...arrayToObject(categories),
     c: "c%2B%2B",
     net: ".net"
   }
@@ -35,6 +39,13 @@ class NoFluffJobs extends JobOffersScraper {
     ]
       .join("/")
       .replace(/(\/all(?=(\/|$)))+/, "");
+  }
+
+  async collectUrls(offersNodes, query) {
+    const offersUrls = await Promise.all(
+      offersNodes.map(async offerNode => await this.getUrl(offerNode))
+    );
+    return offersUrls.filter(offerNode => offerNode.match(query.city));
   }
 
   async executeBefore() {

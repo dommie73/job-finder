@@ -7,6 +7,8 @@ const {
   MONGODB_PASS
 } = require("../config");
 
+const app = require('../app');
+
 mongoose.connect(MONGODB_URI, {
   dbName: MONGODB_NAME,
   user: MONGODB_USER,
@@ -16,6 +18,7 @@ mongoose.connect(MONGODB_URI, {
   useUnifiedTopology: true
 });
 
-mongoose.connection.on("connected", () => {
-  console.log(`Database ${MONGODB_NAME} is connected`);
+mongoose.connection.once("open", () => {
+  console.log(`Database ${MONGODB_NAME} is connected`)
+  app.emit("ready");
 });

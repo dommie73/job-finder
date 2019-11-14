@@ -1,5 +1,7 @@
-const compareAndSaveOffers = require("./compareAndSaveOffers");
+const saveOffers = require("./saveOffers");
+const scrapeOffers = require("./scrapeOffers");
 
 module.exports = {
-  compareAndSaveOffers
+  saveOffers,
+  scrapeOffers
 };

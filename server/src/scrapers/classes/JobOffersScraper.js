@@ -77,11 +77,11 @@ class JobOffersScraper {
       },
       url,
       city: query.city,
-      category: [query.category]
+      category: query.category
     };
   }
 
-  async collectUrls(offersNodes) {
+  async collectUrls(offersNodes, query) {
     return await Promise.all(
       offersNodes.map(async offerNode => await this.getUrl(offerNode))
     );
@@ -91,7 +91,7 @@ class JobOffersScraper {
 
   async _scrapeEach(offersNodes, query) {
     const offers = [];
-    const offersUrls = await this.collectUrls(offersNodes);
+    const offersUrls = await this.collectUrls(offersNodes, query);
 
     for (const offerUrl of offersUrls) {
       await this._goToOffersPage(offerUrl);
