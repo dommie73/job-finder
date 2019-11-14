@@ -13,9 +13,8 @@ const getJobOffers = async query => {
     const justJoinIT = await new JustJoinIT(page).getJobOffers(query);
     const noFluffJobs = await new NoFluffJobs(page).getJobOffers(query);
     const jobsForGeek = await new JobsForGeek(page).getJobOffers(query);
-
     const data = [...justJoinIT, ...noFluffJobs, ...jobsForGeek];
-    console.log(data);
+
     return data;
   } catch (error) {
     console.error(error.message);

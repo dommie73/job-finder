@@ -4,7 +4,7 @@
   "description": "A simple web scraper which collects and parses out job postings.",
   "main": "src/server.js",
   "scripts": {
-    "start": "nodemon --ignore *.json",
+    "dev:server": "env-cmd -f ./src/config/dev.env nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,9 +18,13 @@
   },
   "homepage": "https://github.com/dommie73/job-finder#readme",
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.10",
     "puppeteer": "1.20.0"
   },
   "devDependencies": {
+    "env-cmd": "^10.0.1",
     "nodemon": "^1.19.3"
   }
 }
