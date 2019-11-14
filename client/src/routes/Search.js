@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { Grid } from '@material-ui/core';
+import { Grid } from "@material-ui/core";
 
-import SearchForm from '../components/SearchForm';
-import OffersList from '../components/OffersList';
-import Spinner from '../components/Spinner'
+import SearchForm from "../components/SearchForm";
+import OffersList from "../components/OffersList";
+import Spinner from "../components/Spinner";
 
-import getJobOffers from '../services/job-finder-server';
+import getJobOffers from "../services/job-finder";
 
-const Search = () => {
-
-  const [city, setCity] = useState('');
-  const [category, setCategory] = useState('');
+const Search = props => {
+  const [city, setCity] = useState("");
+  const [category, setCategory] = useState("");
   const [offers, setOffers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -19,10 +18,15 @@ const Search = () => {
     event.preventDefault();
     setIsLoading(true);
 
-    const offersData = await getJobOffers(city, category);
+    console.log(props.scraping);
+
+    const offersData = props.scraping
+      ? await getJobOffers("scrape", city, category)
+      : await getJobOffers("search", city, category);
+
     setOffers(offersData);
     setIsLoading(false);
-  }
+  };
 
   return (
     <Grid container>
@@ -36,9 +40,7 @@ const Search = () => {
         />
       </Grid>
       <Grid item lg={12}>
-        {isLoading ?
-          <Spinner /> :
-          <OffersList offers={offers} />}
+        {isLoading ? <Spinner /> : <OffersList offers={offers} />}
       </Grid>
     </Grid>
   );
