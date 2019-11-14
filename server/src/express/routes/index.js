@@ -1,10 +1,11 @@
 const { Router } = require("express");
 
 const getJobOffers = require("../../scrapers");
+const testSaving = require("../../db/test");
 
 const router = Router();
 
-router.get("/search", async (req, res) => {
+router.get("/scrape", async (req, res) => {
   const { method, path, query } = req;
   const { city, category } = query;
 
@@ -32,5 +33,7 @@ router.get("/search", async (req, res) => {
       .send("Oops, something went wrong :c");
   }
 });
+
+router.get("/search", testSaving);
 
 module.exports = router;

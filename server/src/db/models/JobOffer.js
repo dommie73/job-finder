@@ -9,11 +9,14 @@ const jobOfferSchema = new Schema(
       name: String,
       address: String
     },
-    url: String
+    url: {
+      type: String,
+      unique: true
+    }
   },
   { timestamps: true }
 );
 
-const JobOffer = model("JobOffer", jobOfferSchema);
+const JobOffer = model("job-offer", jobOfferSchema);
 
 module.exports = JobOffer;
